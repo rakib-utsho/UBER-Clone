@@ -74,22 +74,49 @@ This project implements a basic user registration and login API using Node.js, E
 
 ---
 
-## 🔐 Security Highlights
+### 3. **User Profile Flow**
 
-- Passwords are hashed with bcrypt before storage.
-- Password field is excluded by default in responses.
-- JWT used for user authentication and session handling.
+**Endpoint:** `GET /profile`  
+**Authentication:** Required (JWT token)
 
----
+**Flow:**
+1. **Authentication Middleware**
+   - Validates JWT token from cookies or Authorization header
+   - Decodes user information
+   - Attaches user object to request
 
-## 📬 API Endpoints
+2. **Controller Logic**
+   - Returns authenticated user's profile data
+   - No additional processing needed
 
-| Method | Endpoint     | Description           |
-|--------|--------------|-----------------------|
-| POST   | /register    | Register a new user   |
-| POST   | /login       | Login with credentials|
+### 4. **User Logout Flow**
 
----
+**Endpoint:** `GET /logout`  
+**Authentication:** Required (JWT token)
+
+**Flow:**
+1. **Authentication Middleware**
+   - Validates JWT token
+
+2. **Controller Logic**
+   - Clears token cookie
+   - Adds token to blacklist to prevent reuse
+   - Returns success message
+
+## 📬 Updated API Endpoints
+
+| Method | Endpoint     | Description           | Auth Required |
+|--------|--------------|-----------------------|---------------|
+| POST   | /register    | Register a new user   | No           |
+| POST   | /login       | Login with credentials| No           |
+| GET    | /profile     | Get user profile      | Yes          |
+| GET    | /logout      | Logout user           | Yes          |
+
+## 🔐 Additional Security Features
+
+- Token blacklisting prevents reuse of logged-out tokens
+- Protected routes require valid JWT token
+- Tokens are stored in HTTP-only cookies for XSS protection
 
 ## 🧪 Example Request (Register)
 
@@ -105,3 +132,16 @@ Content-Type: application/json
   "email": "john.doe@example.com",
   "password": "secret123"
 }
+```
+
+### Profile Response
+```json
+{
+  "fullname": {
+    "firstName": "John",
+    "lastName": "Doe"
+  },
+  "email": "john.doe@example.com",
+  "socketId": "optional-socket-id"
+}
+```
