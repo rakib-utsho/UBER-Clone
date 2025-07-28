@@ -1,5 +1,9 @@
+// Backend/db/db.js
+// This file is responsible for connecting to the MongoDB database using Mongoose
 const mongoose = require("mongoose");
 
+// Function to connect to the database
+// It uses the connection string from environment variables
 function connectToDb() {
   //  console.log("Connecting to DB...");
   mongoose

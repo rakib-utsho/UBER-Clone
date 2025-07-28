@@ -1,6 +1,8 @@
+// Backend/models/blacklistToken.model.js
 const mongoose = require("mongoose");
-const { create } = require("./user.model");
 
+
+// Blacklist token schema definition
 const blacklistTokenSchema = new mongoose.Schema({
   token: {
     type: String,
@@ -14,5 +16,7 @@ const blacklistTokenSchema = new mongoose.Schema({
   },
 });
 
+// Create a model for the blacklist token
 const tokenModel = mongoose.model("token", blacklistTokenSchema);
+// Export the model
 module.exports = tokenModel;

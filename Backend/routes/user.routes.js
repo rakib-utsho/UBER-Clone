@@ -1,9 +1,11 @@
+// Backend/routes/user.routes.js
 const express = require("express");
 const router = express.Router();
 const { body } = require("express-validator");
 const userController = require("../controllers/user.controller");
 const authMiddleware = require("../middlewares/auth.middleware");
 
+// User routes with validation
 router.post(
   "/register",
   [
@@ -30,8 +32,10 @@ router.post(
   userController.loginUser
 );
 
+// Route to get user profile
 router.get("/profile",authMiddleware.authUser, userController.getUserProfile);
 
+// Route to update user profile
 router.get("/logout", authMiddleware.authUser, userController.logoutUser);
 
 module.exports = router;
